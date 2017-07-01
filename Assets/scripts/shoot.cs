@@ -47,9 +47,13 @@ public class shoot : MonoBehaviour {
             //    bullet.SendMessage ("gotot");
         }
     }
-    void FixedUpdate() {
 
+    void OnCollisionEnter2D(Collision2D other) {
+        if(other.gameObject.tag == "goal") {
+            ball.GetComponent<Rigidbody2D>().velocity = new Vector2(0, 0);
+        }
     }
+
     Vector2 evalLocation(Vector2 origin, Vector2 destination) {
         Vector2 ret;
         /*if(origin.x >= destination.x && origin.y >= destination.y) {
