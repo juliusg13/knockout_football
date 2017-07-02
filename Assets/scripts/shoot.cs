@@ -65,6 +65,7 @@ public class shoot : MonoBehaviour {
        // while (enabled) {
         justScored = true;
         yield return new WaitForSeconds(goalTimer);
+        ball.transform.position = new Vector3(0, 0, -0.05f);
         score.SetActive(false);
         lockBall = true;
         justScored = false;
