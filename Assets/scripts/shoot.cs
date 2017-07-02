@@ -4,15 +4,22 @@ using UnityEngine;
 
 public class shoot : MonoBehaviour {
 
-    GameObject ball;
+    GameObject ball, score;
     public float thrust;
     public Rigidbody2D rb;
-    Vector2 vel, target;
+    Vector2 vel, target, clamper;
     float magnitude, step;
+    public float goalTimer;
+    bool lockBall, justScored;
     // Use this for initialization
     void Start() {
         ball = GameObject.FindGameObjectWithTag("ball");
         rb = GetComponent<Rigidbody2D>();
+        score = GameObject.Find("Score");
+        score.SetActive(false);
+        lockBall = false;
+        justScored = false;
+        clamper = new Vector2(1, 1);
     }
 
     // Update is called once per frame
@@ -23,50 +30,43 @@ public class shoot : MonoBehaviour {
            }*/
         vel = ball.GetComponent<Rigidbody2D>().velocity;
         Shoot();
+        
         magnitude = vel.magnitude;
-        /*if (magnitude < 1) {
-            ball.GetComponent<Rigidbody2D>().velocity = new Vector2(0, 0);
-        }*/
+        //if (magnitude < 1 || magnitude > -1) {
+        if(magnitude < clamper.magnitude) { 
+            lockBall = false;
+//            ball.GetComponent<Rigidbody2D>().velocity = new Vector2(0, 0);
+            
+        }
     }
 
     void Shoot() {
-        if (Input.GetMouseButtonDown(0)) {
+        if (Input.GetMouseButtonDown(0) && lockBall == false && justScored == false) {
+            lockBall = true;
             target = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             //            target = Camera.main.ScreenToViewportPoint(Input.mousePosition);
             //            Vector2 origin = Camera.main.WorldToViewportPoint(ball.transform.position);
             Vector2 origin = ball.transform.position;
 
             rb.velocity = (2 * (target - origin));
-
-
-
-
-            //ball.GetComponent<Rigidbody2D>().AddForce(target - origin, ForceMode2D.Force);
-            //Debug.Log("origin: " + origin);
-            //Debug.Log("destination: " + target);
-            //    bullet.SendMessage ("gotot");
+            
         }
     }
 
     void OnCollisionEnter2D(Collision2D other) {
         if(other.gameObject.tag == "goal") {
             ball.GetComponent<Rigidbody2D>().velocity = new Vector2(0, 0);
+            score.SetActive(true);
+            StartCoroutine(showGoal());
+
         }
     }
-
-    Vector2 evalLocation(Vector2 origin, Vector2 destination) {
-        Vector2 ret;
-        /*if(origin.x >= destination.x && origin.y >= destination.y) {
-            ret = new Vector2(origin.x - destination.x, origin.y - destination.y);
-        } else if(origin.x >= destination.x && origin.y < destination.y) {
-            ret = new Vector2(origin.x )
-        } else if(origin.x < destination.x && origin.y > destination.y) {
-
-        } else { //both origin points are smaller OR equal to destination, so they will cancel each other out if same size.
-
-        }*/
-        ret = new Vector2(origin.x - destination.x, origin.y - destination.y);
-
-        return ret;
+    IEnumerator showGoal() {
+       // while (enabled) {
+        justScored = true;
+        yield return new WaitForSeconds(goalTimer);
+        score.SetActive(false);
+        lockBall = true;
+        justScored = false;
     }
 }
