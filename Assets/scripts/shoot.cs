@@ -54,7 +54,10 @@ public class shoot : MonoBehaviour {
             
         }
     }
-
+    /// <summary>
+    /// Should pause time when goal is scored!
+    /// </summary>
+    /// <param name="other"></param>
     void OnCollisionEnter2D(Collision2D other) {
         if(other.gameObject.tag == "goal") {
             ball.GetComponent<Rigidbody2D>().velocity = new Vector2(0, 0);
