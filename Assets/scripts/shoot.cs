@@ -10,6 +10,8 @@ public class shoot : MonoBehaviour {
     Vector2 vel, target, clamper;
     float magnitude, step;
     public float goalTimer;
+    public GameObject score1, score2, gm;
+    int scoreA, scoreB;
     bool lockBall, justScored;
     // Use this for initialization
     void Start() {
@@ -59,6 +61,14 @@ public class shoot : MonoBehaviour {
             score.SetActive(true);
             StartCoroutine(showGoal());
 
+            if(other.gameObject.name == "goal1") {
+                gm.GetComponent<gameManager>().scoreA++;
+
+            }
+            if (other.gameObject.name == "goal2") {
+                gm.GetComponent<gameManager>().scoreB++;
+            
+            }
         }
     }
     IEnumerator showGoal() {

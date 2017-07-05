@@ -7,16 +7,20 @@ public class gameManager : MonoBehaviour {
 
     public float time;
     public GameObject timeUI;
-    Text timeText;
-    int scoreA, scoreB;
+    public GameObject scoreLeft, scoreRight;
+    Text timeText, scoreLeftText, scoreRightText;
+    public int scoreA, scoreB;
 
-	// Use this for initialization
-	void Start () {
+    // Use this for initialization
+    void Start () {
         scoreA = 0;
         scoreB = 0;
         time = 90;
         timeText = timeUI.GetComponent<Text>();
-        timeText.text = "Time: ASDJKH" + time.ToString();
+        scoreLeftText = scoreLeft.GetComponent<Text>();
+        scoreRightText = scoreRight.GetComponent<Text>();
+
+        timeText.text = "Time: " + time.ToString();
 	}
 	
 	// Update is called once per frame
@@ -28,9 +32,13 @@ public class gameManager : MonoBehaviour {
             gameOver();
         }
         timeText.text = "Time: " + time.ToString();
+        scoreLeftText.text = "Korea: " + scoreA.ToString();
+        scoreRightText.text = "Iceland: " + scoreB.ToString();
     }
 
     void gameOver() {
+        scoreA = 0;
+        scoreB = 0;
 
     }
 }
