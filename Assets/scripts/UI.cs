@@ -17,21 +17,25 @@ public class UI : MonoBehaviour {
     void Update() {
     }
 
-public void gameOver(string message, float delay) {
+    public void gameOver(string message, float delay) {
         StartCoroutine(ShowMessage(message, delay));
     }
     
-private IEnumerator ShowMessage (string message, float delay) {
+    private IEnumerator ShowMessage (string message, float delay) {
         winGame.GetComponentInChildren<Text>().text = message;
         winGame.SetActive(true);
         yield return new WaitForSeconds(delay);
         winGame.SetActive(false);
         restart();
- }
+    }
 
 
-public void restart()
-    {
+    public void restart(){
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+    }
+
+    public void quitGame() {
+        Application.Quit();
+        UnityEditor.EditorApplication.isPlaying = false;
     }
 }
