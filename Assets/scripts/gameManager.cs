@@ -6,16 +6,17 @@ using UnityEngine.UI;
 public class gameManager : MonoBehaviour {
 
     public float time;
+    public GameObject UI;
     public GameObject timeUI;
     public GameObject scoreLeft, scoreRight;
     Text timeText, scoreLeftText, scoreRightText;
     public int scoreA, scoreB;
+    string message;
 
     // Use this for initialization
     void Start () {
         scoreA = 0;
         scoreB = 0;
-        time = 90;
         timeText = timeUI.GetComponent<Text>();
         scoreLeftText = scoreLeft.GetComponent<Text>();
         scoreRightText = scoreRight.GetComponent<Text>();
@@ -37,8 +38,15 @@ public class gameManager : MonoBehaviour {
     }
 
     void gameOver() {
-        scoreA = 0;
-        scoreB = 0;
+        if(scoreA > scoreB) {
+            message = "North Korea wins! Nukes for everybody.";
+        } else if(scoreB > scoreA) {
+            message = "Iceland wins! Enjoy some decomposed shark.";
+        } else {
+            message = "It's a tie, trophy will be split into two :(";
+        }
+        UI.GetComponent<UI>().gameOver(message, 4);
 
     }
+
 }
